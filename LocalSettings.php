@@ -18,7 +18,7 @@ if ( !defined( 'MEDIAWIKI' ) ) {
 ## Uncomment this to disable output compression
 # $wgDisableOutputCompression = true;
 
-$wgSitename = "Test";
+$wgSitename = "Zero";
 
 ## The URL base path to the directory containing the wiki;
 ## defaults for all runtime URL paths are based off of this.
@@ -98,11 +98,11 @@ $wgShellLocale = "en_US.utf8";
 # Site language code, should be one of the list in ./languages/Names.php
 $wgLanguageCode = "ko";
 
-$wgSecretKey = "b2daeec3f20405d70090ef02fdbd1b64b52f966c4b8ef4651d57ef53751607b4";
+$wgSecretKey = "334af6baf925b3026ff96f9da1c34255d2350d02db9484b755a5b8dd0c76e9a4";
 
 # Site upgrade key. Must be set to a string (default provided) to turn on the
 # web installer while LocalSettings.php is in place
-$wgUpgradeKey = "a130d0224f58c2d9";
+$wgUpgradeKey = "2f93af94cdc08287";
 
 ## For attaching licensing metadata to pages, and displaying an
 ## appropriate copyright notice / icon. GNU Free Documentation
