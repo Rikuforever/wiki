@@ -131,10 +131,20 @@ wfLoadSkin( 'Vector' );
 # but check specific extension documentation for more details
 # The following extensions were automatically enabled:
 //require_once "$IP/extensions/LiquidThreads/LiquidThreads.php";
-//wfLoadExtension( 'WikiEditor' );
+wfLoadExtension( 'WikiEditor' );
 require_once "$IP/extensions/examples/Example/Example.php";
+require_once "$IP/extensions/Profile/Profile.php";
 
 # End of automatically generated settings.
 # Add more configuration options below.
 
 $wgShowExceptionDetails = true;
+$wgShowSQLErrors = 1;
+
+/**
+ * The debug log file must never be publicly accessible because it
+ * contains private data. But ensure that the directory is writeable by the
+ * PHP script running within your Web server.
+ * The filename is with the database name of the wiki.
+ */
+$wgDebugLogFile = "C:\Bitnami\wampstack-5.5.31-0\apache2\htdocs\wiki\debug-{$wgDBname}.log";
