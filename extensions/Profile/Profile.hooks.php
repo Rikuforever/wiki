@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 /**
  * Register parser hooks
@@ -31,7 +31,7 @@ class ProfileHooks{
 	}
 
 	public static function renderTag($input, array $args, Parser $parser, PPFrame $frame){
-		$dbr = wfgetDB( DB_SLAVE );
+		$dbr = wfgetDB( DB_SLAVE );				//UTF-8 테스트
     	$var = $dbr->selectFieldValues(
 	       'user',                  
 	       'user_name',             
