@@ -33,12 +33,12 @@ class ProfileHooks{
 	public static function renderTag($input, array $args, Parser $parser, PPFrame $frame){
 		$dbr = wfgetDB( DB_SLAVE );
     	$var = $dbr->selectFieldValues(
-	       'user',                  //í…Œì´ë¸” ì´ë¦„
-	       'user_name',             //í•„ë“œ ì´ë¦„
-	       '',                      //SQLë¬¸ LIKE ë˜ëŠ” CASEWHEN ë“± ì‚¬ìš©
-	       __METHOD__,              //ê³ ì •(?)
-	       array(),                 //ORDER BY ë“± ì˜µì…˜ ì„¤ì •
-	       array()                  //LEFT JOIN ë“± join ì»¨ë””ì…˜ ì‚¬ìš©
+	       'user',                  
+	       'user_name',             
+	       '',                      
+	       __METHOD__,              
+	       array(),                 
+	       array()                  
 	    );
 		
 
