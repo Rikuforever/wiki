@@ -25,3 +25,11 @@ $wgExtensionMessagesFiles['ProfileAlias'] = __DIR__ . '/Profile.alias.php'; # Lo
 
 // Register hooks
 $wgHooks['ParserFirstCallInit'][] = 'ProfileHooks::onParserFirstCallInit';
+
+// Register Modules
+$wgResourceModules['ext.profile.button'] = array(
+	'scripts' 		=> 'modules/ext.Profile.js',
+	'styles'		=> 'modules/ext.Profile.css',
+	'localBasePath' => __DIR__,
+	'remoteExtPath' => 'Profile',
+);
