@@ -133,6 +133,9 @@ wfLoadSkin( 'Vector' );
 //require_once "$IP/extensions/LiquidThreads/LiquidThreads.php";
 //wfLoadExtension( 'WikiEditor' );
 require_once "$IP/extensions/examples/Example/Example.php";
+require_once "$IP/extensions/Manual/TagExtensions/TagExtensions.php";
+require_once "$IP/extensions/Manual/QuickTemplate/MySpecialPage.php";
+require_once "$IP/extensions/Manual/ParserFunctions/1/ExampleExtension.php";
 
 # End of automatically generated settings.
 # Add more configuration options below.
