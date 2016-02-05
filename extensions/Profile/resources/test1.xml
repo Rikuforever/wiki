@@ -1,0 +1,17 @@
+﻿<table class="wtable">
+	<tr>
+		<td>Feedback</td>
+		<td><input id="inp001" type="text" /></td>
+	</tr>
+	<tr>
+		<td>Previous feedback given on:</td>
+		<td>(never)</td>
+	</tr>
+	<tr>
+		<td>Clear history</td>
+		<td><input id="chk001" type="checkbox" /></td>
+	</tr>
+</table>
+<tr>
+	<td align="center" colspan=2><input id="btn001" type="button" value="Submit"></td>
+</tr>

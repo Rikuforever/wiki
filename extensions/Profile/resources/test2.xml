@@ -1,0 +1,2 @@
+﻿<sample></sample>
+<h2>SUCCESS<?php echo $var[0]; ?></h2>
