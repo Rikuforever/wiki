@@ -117,7 +117,7 @@ $wgDiff3 = "";
 
 ## Default skin: you can change the default skin. Use the internal symbolic
 ## names, ie 'vector', 'monobook':
-$wgDefaultSkin = "vector";
+$wgDefaultSkin = "bootstrapskin";
 
 # Enabled skins.
 # The following skins were automatically enabled:
@@ -137,6 +137,11 @@ require_once "$IP/extensions/Manual/TagExtensions/TagExtensions.php";
 require_once "$IP/extensions/Manual/QuickTemplate/MySpecialPage.php";
 require_once "$IP/extensions/Manual/ParserFunctions/1/ExampleExtension.php";
 require_once "$IP/extensions/Profile/Profile.php";
+
+##Bootstrap 
+require_once "$IP/skins/bootstrap/bootstrapskin.php";
+$wgRestrictDisplayTitle = false;
+$wgAllowExternalImages = true;
 
 # End of automatically generated settings.
 # Add more configuration options below.
