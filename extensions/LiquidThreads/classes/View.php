@@ -251,6 +251,8 @@ class LqtView {
 	 * @param $perpetuateOffset bool
 	 * @return array
 	 */
+	
+	//HJ : method 값을 필요 링크 값을 반환 할 듯
 	static function talkpageLinkData( $title, $method = null, $operand = null,
 		$includeFragment = true, $perpetuateOffset = true )
 	{
@@ -278,6 +280,7 @@ class LqtView {
 			$request = $wgRequest;
 		}
 
+		
 		if ( $perpetuateOffset ) {
 			$offset = $request->getVal( 'offset' );
 
@@ -290,6 +293,9 @@ class LqtView {
 		if ( $operand && $includeFragment ) {
 			$title->mFragment = $operand->getAnchorName();
 		}
+
+		//HJ : Custom 인자 결국 안쓰는듯 
+		//$query['lqt_fuck'] = 'RIKU';
 
 		return array( $title, $query );
 	}
@@ -429,7 +435,9 @@ class LqtView {
 	 * @return String
 	 * @throws Exception
 	 */
-	static function getInlineEditForm( $talkpage, $method, $operand ) {
+	//HJ : 이 함수는 api에서 에딧폼 받아올때 쓰는 것! 거의 전달용이라고 생각하면 될듯
+	//static function getInlineEditForm( $talkpage, $method, $operand )
+	static function getInlineEditForm( $talkpage, $method, $operand, $fuck ) {
 		$req = new RequestContext;
 		$output = $req->getOutput();
 		$request = new FauxRequest( array() );
@@ -455,6 +463,8 @@ class LqtView {
 		$output->setTitle( $title );
 		$request->setVal( 'lqt_method', $method );
 		$request->setVal( 'lqt_operand', $operand );
+		//HJ : fuck 설정을 여기서?
+		$request->setVal( 'lqt_fuck', $fuck );
 
 		global $wgUser;
 		$view = new LqtView( $output, $talkpage, $title, $wgUser, $request );
@@ -607,7 +617,6 @@ class LqtView {
 					array( 'class' => 'lqt-reply-form lqt-edit-form' ) );
 		$this->output->addHTML( $html );
 
-
 		try {
 			$t = $this->newReplyTitle( null, $thread );
 		} catch ( Exception $excep ) {
@@ -646,6 +655,8 @@ class LqtView {
 		$e->editFormTextBeforeContent .=
 			$this->perpetuate( 'lqt_method', 'hidden' ) .
 			$this->perpetuate( 'lqt_operand', 'hidden' ) .
+			//HJ
+			Html::hidden( 'lqt_fuck',  $this->request->getVal( 'lqt_fuck' )) .
 			Html::hidden( 'lqt_nonce', MWCryptRand::generateHex( 32 ) ) .
 			Html::hidden( 'offset', $offset ) .
 			Html::hidden( 'wpMinorEdit', '' );
@@ -1290,7 +1301,24 @@ class LqtView {
 					'icon' => 'reply.png',
 				);
 			}
+			//var_dump($commands['reply']['href']);
+
 		}
+
+		//HJ : Insert Button
+		if ( $isLqtPage ) {
+			$commands['reply2'] = array(
+					'label' => '답변2',
+					'href' => $this->talkpageUrl( $this->title, 'reply', $thread,
+						true /* include fragment */, $this->request ),
+					'enabled' => true,
+					'showlabel' => 1,
+					'tooltip' => wfMessage( 'lqt_reply' )->parse(),
+					'icon' => 'reply.png',
+			);
+		}
+		//var_dump($commands['reply2']['href']);
+
 
 		// Parent post link
 		if ( !$thread->isTopmostThread() ) {
@@ -1304,6 +1332,8 @@ class LqtView {
 				'showlabel' => 1,
 			);
 		}
+
+		
 
 		Hooks::run( 'LiquidThreadsThreadMajorCommands',
 				array( $thread, &$commands ) );

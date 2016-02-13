@@ -130,8 +130,8 @@ wfLoadSkin( 'Vector' );
 # Enabled Extensions. Most extensions are enabled by including the base extension file here
 # but check specific extension documentation for more details
 # The following extensions were automatically enabled:
-//require_once "$IP/extensions/LiquidThreads/LiquidThreads.php";
-//wfLoadExtension( 'WikiEditor' );
+require_once "$IP/extensions/LiquidThreads/LiquidThreads.php";
+wfLoadExtension( 'WikiEditor' );
 require_once "$IP/extensions/examples/Example/Example.php";
 
 # End of automatically generated settings.

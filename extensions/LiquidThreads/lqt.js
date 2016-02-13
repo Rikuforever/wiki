@@ -37,6 +37,8 @@ window.liquidThreads = {
 
 		var container = $( target ).closest( '.lqt_thread' )[0];
 		var thread_id = $( this ).data( 'thread-id' );
+		//HJ : fuck 값을 data로 읽어옴(설정은 setupMenu에서 설정 setupThread 에서 필요할지는 모르겠음)
+		var fuck = $( this ).data( 'fuck' );
 
 		// hide the form for this thread if it's currently being shown
 		if ( thread_id === liquidThreads.currentReplyThread && $( '#wpTextbox1' ).is( ':visible' ) ) {
@@ -44,7 +46,7 @@ window.liquidThreads = {
 			return;
 		}
 
-		var params = { 'method' : 'reply', 'thread' : thread_id };
+		var params = { 'method' : 'reply', 'thread' : thread_id, 'fuck' : fuck };
 
 		var repliesElement = $( container ).contents().filter( '.lqt-thread-replies' );
 		var replyDiv = repliesElement.contents().filter( '.lqt-reply-form' );
@@ -324,7 +326,17 @@ window.liquidThreads = {
 		// Add handler for reply link
 		var replyLink = toolbar.find( '.lqt-command-reply > a' );
 		replyLink.data( 'thread-id', threadID );
+		replyLink.data( 'fuck', 'RIKU');
 		replyLink.click( liquidThreads.handleReplyLink );
+
+		//HJ : 추가 링크에 대한 연결
+		var replyLink = toolbar.find( '.lqt-command-reply2 > a' );
+		replyLink.data( 'thread-id', threadID );
+		//HJ : data에 fuck값을 넣는다. data(key, value)
+		replyLink.data( 'fuck', 'SORA');
+		replyLink.click( liquidThreads.handleReplyLink );
+
+
 
 		if ( ! menu.closest( '.lqt_thread' ).is( '.lqt-thread-uneditable' ) ) {
 			// Add "Drag to new location" to menu
@@ -641,6 +653,8 @@ window.liquidThreads = {
 		replyLinks.click( liquidThreads.handleReplyLink );
 		replyLinks.data( 'thread-id', threadId );
 
+		//HJ : 여기도 추개야하나?
+
 		// Hide edit forms
 		$( threadContainer ).find( 'div.lqt-edit-form' ).each(
 			function () {
@@ -901,6 +915,8 @@ window.liquidThreads = {
 		var replyThread = editform.find( 'input[name=lqt_operand]' ).val();
 		var bumpBox = editform.find( '#wpBumpThread' );
 		var bump = bumpBox.length === 0 || bumpBox.is( ':checked' );
+		//HJ : lqt_fuck 값을 여기서 받나?
+		var fuck = editform.find( 'input[name=lqt_fuck]' ).val();
 
 		var spinner = $( '<div class="mw-ajax-loader"/>' );
 		editform.prepend( spinner );
@@ -980,9 +996,10 @@ window.liquidThreads = {
 			liquidThreads.reloadTOC();
 		};
 
+		//HJ : fuck 값 전달
 		if ( type === 'reply' ) {
 			liquidThreads.doReply( replyThread, text, summary,
-					doneCallback, bump, signature, errorCallback );
+					doneCallback, bump, signature, fuck);
 
 			e.preventDefault();
 		} else if ( type === 'talkpage_new_thread' ) {
@@ -1048,7 +1065,8 @@ window.liquidThreads = {
 		( new mw.Api() ).post( newTopicParams ).done( doneCallback ).fail( errorCallback );
 	},
 
-	'doReply' : function ( thread, text, summary, callback, bump, signature ) {
+	//HJ : fuck 받음
+	'doReply' : function ( thread, text, summary, callback, bump, signature, fuck ) {
 		var replyParams = {
 			action : 'threadaction',
 			threadaction : 'reply',
@@ -1057,7 +1075,8 @@ window.liquidThreads = {
 			token : mw.user.tokens.get( 'editToken' ),
 			render : '1',
 			reason : summary,
-			bump : bump
+			bump : bump,
+			fuck : fuck
 		};
 
 		if ( $( '#wpCaptchaWord' ) ) {

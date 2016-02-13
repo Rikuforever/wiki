@@ -501,7 +501,8 @@ class ApiThreadAction extends ApiEditPage {
 			$this->dieUsage( 'You must include text in your post', 'no-text' );
 		}
 
-		$text = $params['text'];
+		//HJ : $text = $params['text'];
+		$text = $params['fuck'];
 
 		$bump = isset( $params['bump'] ) ? $params['bump'] : null;
 
@@ -821,6 +822,11 @@ class ApiThreadAction extends ApiEditPage {
 			$talkpage = $params['talkpage'];
 		}
 
+		//HJ : fuck 받는다.
+		if ( isset( $params['fuck'] ) ) {
+			$fuck = $params['fuck'];
+		}
+
 		if ( $talkpage ) {
 			$talkpage = new Article( Title::newFromText( $talkpage ), 0 );
 		} else {
@@ -832,7 +838,9 @@ class ApiThreadAction extends ApiEditPage {
 			$operand = $operand->id();
 		}
 
-		$output = LqtView::getInlineEditForm( $talkpage, $method, $operand );
+		//HJ : 중요!! 여기서 javascript에서 받은 fuck 인자를 물려받고, 이를 view로 넘겨줘서, html hidden으로 fuck 값을 부여해서 js로 읽을수 있게 하는겨
+		//$output = LqtView::getInlineEditForm( $talkpage, $method, $operand);
+		$output = LqtView::getInlineEditForm( $talkpage, $method, $operand, $fuck );
 
 		$result = array( 'inlineeditform' => array( 'html' => $output ) );
 
@@ -897,6 +905,8 @@ class ApiThreadAction extends ApiEditPage {
 			'value' => 'Specifies the value associated with the reaction to add',
 			'method' => 'For getting inline edit forms, the method to get a form for',
 			'operand' => '',
+			//HJ
+			'fuck' => '',
 		);
 	}
 
@@ -946,6 +956,8 @@ class ApiThreadAction extends ApiEditPage {
 			'value' => null,
 			'method' => null,
 			'operand' => null,
+			//HJ : fuck 받음
+			'fuck' => null,
 		);
 	}
 
