@@ -2140,8 +2140,23 @@ class LqtView {
 
 		// Flush output to display thread
 		$this->output->addHTML( $html );
-		$this->output->addHTML( Xml::openElement( 'div',
-					array( 'class' => 'lqt-post-wrapper' ) ) );
+		/*$this->output->addHTML( Xml::openElement( 'div',
+					array( 'class' => 'lqt-post-wrapper' ) ) );*/
+
+		//AllQOOW: Attempt1 Injecting if statement
+		if( $thread->score1 ){
+			if( $thread->kustom1() == 4){
+				$this->output->addHTML( Xml::openElement( 'div',
+						array( 'class' => 'lqt-post-wrapper' ) ) );
+			} else {
+				$this->output->addHTML( Xml::openElement( 'div',
+						array( 'class' => 'lqt-post-wrapper-1' ) ) );
+			}
+		} else {
+			$this->output->addHTML( Xml::openElement( 'div',
+					array( 'class' => 'lqt-post-wrapper' ) ) );			
+		}//END
+
 		$this->showSingleThread( $thread );
 		$this->output->addHTML( Xml::closeElement( 'div' ) );
 

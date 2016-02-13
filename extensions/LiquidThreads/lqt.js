@@ -901,6 +901,8 @@ window.liquidThreads = {
 		var replyThread = editform.find( 'input[name=lqt_operand]' ).val();
 		var bumpBox = editform.find( '#wpBumpThread' );
 		var bump = bumpBox.length === 0 || bumpBox.is( ':checked' );
+		//HJ
+		var procon = 'PRO';
 
 		var spinner = $( '<div class="mw-ajax-loader"/>' );
 		editform.prepend( spinner );
@@ -981,8 +983,9 @@ window.liquidThreads = {
 		};
 
 		if ( type === 'reply' ) {
+			//HJ
 			liquidThreads.doReply( replyThread, text, summary,
-					doneCallback, bump, signature, errorCallback );
+					doneCallback, bump, signature, errorCallback, 'PRO');
 
 			e.preventDefault();
 		} else if ( type === 'talkpage_new_thread' ) {
@@ -1048,7 +1051,8 @@ window.liquidThreads = {
 		( new mw.Api() ).post( newTopicParams ).done( doneCallback ).fail( errorCallback );
 	},
 
-	'doReply' : function ( thread, text, summary, callback, bump, signature ) {
+	//HJ
+	'doReply' : function ( thread, text, summary, callback, bump, signature, procon ) {
 		var replyParams = {
 			action : 'threadaction',
 			threadaction : 'reply',
@@ -1057,7 +1061,8 @@ window.liquidThreads = {
 			token : mw.user.tokens.get( 'editToken' ),
 			render : '1',
 			reason : summary,
-			bump : bump
+			bump : bump,
+			procon : procon,
 		};
 
 		if ( $( '#wpCaptchaWord' ) ) {

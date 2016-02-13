@@ -501,7 +501,8 @@ class ApiThreadAction extends ApiEditPage {
 			$this->dieUsage( 'You must include text in your post', 'no-text' );
 		}
 
-		$text = $params['text'];
+		//HJ
+		$text = $params['procon'];
 
 		$bump = isset( $params['bump'] ) ? $params['bump'] : null;
 
@@ -897,6 +898,8 @@ class ApiThreadAction extends ApiEditPage {
 			'value' => 'Specifies the value associated with the reaction to add',
 			'method' => 'For getting inline edit forms, the method to get a form for',
 			'operand' => '',
+			//HJ
+			'procon' => '',
 		);
 	}
 
@@ -946,6 +949,8 @@ class ApiThreadAction extends ApiEditPage {
 			'value' => null,
 			'method' => null,
 			'operand' => null,
+			//HJ
+			'procon' => null,
 		);
 	}
 

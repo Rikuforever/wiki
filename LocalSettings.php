@@ -132,11 +132,18 @@ wfLoadSkin( 'Vector' );
 # The following extensions were automatically enabled:
 //require_once "$IP/extensions/LiquidThreads/LiquidThreads.php";
 //wfLoadExtension( 'WikiEditor' );
-require_once "$IP/extensions/examples/Example/Example.php";
+//require_once "$IP/extensions/examples/Example/Example.php";
 require_once "$IP/extensions/Manual/TagExtensions/TagExtensions.php";
 require_once "$IP/extensions/Manual/QuickTemplate/MySpecialPage.php";
 require_once "$IP/extensions/Manual/ParserFunctions/1/ExampleExtension.php";
 require_once "$IP/extensions/Profile/Profile.php";
+require_once "$IP/extensions/LiquidThreads/LiquidThreads.php";
+
+//Flow
+//require_once "$IP/extensions/Flow/Flow.php";
+//require_once "$IP/extensions/Echo/Echo.php";
+//$wgNamespaceContentModels[NS_TALK] = CONTENT_MODEL_FLOW_BOARD;
+
 
 ##Bootstrap 
 require_once "$IP/skins/bootstrap/bootstrapskin.php";

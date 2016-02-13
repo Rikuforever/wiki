@@ -582,6 +582,7 @@ class LqtHooks {
 		) );
 
  		return true;
+
  	}
 
 	/**
@@ -969,4 +970,96 @@ class LqtHooks {
 		}
 		return true;
 	}
+
+	// ALLQOOW: to add buttons in editing window(?)
+	public static function onEditPageBeforeEditButtons( &$this, &$buttons, &$tabindex ) {
+		$a = $this;
+		$alq = $a->mTitle->mNamespace; // ALLQOOW: But Why?
+		//if ( $alq == 90|0) { 
+			$attribs = array(
+				'id' => 'wpSave',
+				'name' => 'wpSave22',
+				'tabindex' => ++$tabindex,
+			) + Linker::tooltipAndAccesskeyAttribs( 'save' );
+			$buttons['save22'] = Html::submitButton( 'BETTER',
+				$attribs, array( 'mw-ui-constructive' ) );
+
+			$attrss = array(
+				'value' => 'PRO',
+			);
+			//$buttons['aaa1'] = Html::element( 'input', Html::buttonAttributes( $attrss, array( ) /*doesn't seem we have to concern about it*/) );
+
+			// 살짝 억지를 쓰기는 했지만 뭐...
+			$buttons['pro'] = Html::radio( 'procon' , false, array('value' => 'PRO')).'PRO';
+			$buttons['con'] = Html::radio( 'procon' , false, array('value' => 'CON')).'CON';
+		//}
+	}
+	public static function onAlternateEdit( $this ) {
+		//var_dump( $this );
+		return true;
+	}
+	/*public static function importFormData ( $this, $request ) {
+		global $wgRequest;
+		var_dump($request);
+		$aa = $request;
+		var_dump($aa->getVal( 'wpSummary' ) );
+		var_dump($wgRequest->getVal( 'wpSummary' ) );
+	}*/
+
+	/*public static function onPageContentSave( &$wikiPage, &$user, &$content, &$summary,	$isMinor, $isWatch, $section, &$flags, &$status ) {
+		global $wgRequest;
+		var_dump( $wgRequest );
+		
+		$dbwAlq = wfGetDB( DB_MASTER );
+		$dbwAlq->Select
+
+		if ( $wgRequest->getVal('procon') == "PRO" ) {
+			$dbwAlq->update('thread', 1, )
+		}
+			function update( $table, $values, $conds, $fname = __METHOD__, $options = array() ) {
+		$table = $this->tableName( $table );
+		$opts = $this->makeUpdateOptions( $options );
+		$sql = "UPDATE $opts $table SET " . $this->makeList( $values, LIST_SET );
+
+		if ( $conds !== array() && $conds !== '*' ) {
+			$sql .= " WHERE " . $this->makeList( $conds, LIST_AND );
+		}
+
+		return $this->query( $sql, $fname );*/
+/*
+	public static function onPageContentSaveComplete( $article, $user, $content, $summary, $isMinor, $isWatch, $section, $flags, $revision, $status, $baseRevId ) {
+		global $wgRequest;
+		var_dump( $wgRequest );
+		var_dump( $wgRequest->getVal('procon') );
+		$bbb = $wgRequest->getVal('procon');
+		var_dump( $bbb );
+
+		$dbwAlq = wfGetDB( DB_MASTER );
+		$aaa = $dbwAlq->select('page','page_id','page_id=52');
+		var_dump( $aaa );
+		if ( $bbb == 'PRO') {
+			var_dump('Die already!');
+			//$dbwAlq->update('thread', array('thread_score1'=>2) ,'thread_id>20');
+			//$dbwAlq->update('thread', array('thread_score1'=>2) , array( 'thread_id' => 20 ), __METHOD__);
+			$dbwAlq->update( 'thread', array( 'thread_score1' => '9' ), array( 'thread_id' => '5' ) );
+		} elseif ( $wgRequest->getVal('procon') == 'CON') {
+			$dbwAlq->update( 'thread', array('thread_score1'=> 7) , array( 'thread_id' => 20 ) );
+		}
+	}
+
+	public static function onLiquidThreadsSaveReply( $info, $e, $thread ) {
+		$info = array(
+					'replyTo' => $thread,
+					'text' => 'some Text',
+					'summary' => $e->summary,
+					'bump' => $bump,
+					'signature' => $signature,
+					'root' => $article,
+				);
+		var_dump( $info );
+
+		$dbwAlq = wfGetDB( DB_MASTER );
+		$dbwAlq->update( 'thread', array( 'thread_score1' => '9' ), array( 'thread_id' => '5' ) );
+	}
+*/
 }

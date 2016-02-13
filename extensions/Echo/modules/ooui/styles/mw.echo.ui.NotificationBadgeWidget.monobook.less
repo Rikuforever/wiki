@@ -1,0 +1,22 @@
+@import '../../echo.variables';
+
+.mw-echo-ui-notificationBadgeButtonPopupWidget {
+	text-transform: none;
+	font-weight: normal;
+	// Badge
+	> .oo-ui-buttonElement-button {
+		padding-right: (@badge-padding + 0.25em);
+		&:hover {
+			.oo-ui-labelElement-label {
+				color: black !important;
+			}
+		}
+	}
+
+	// Footer
+	.oo-ui-popupWidget-footer {
+		// Override text-align that monobook uses for #p-personal li
+		text-align: left;
+	}
+
+}

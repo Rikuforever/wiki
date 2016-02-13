@@ -46,6 +46,10 @@ class Thread {
 	protected $replies;
 	protected $reactions;
 
+	//ALLQOOW
+	public static $score1;
+	public static $logalq;
+
 	public $dbVersion; // A copy of the thread as it exists in the database.
 
 	static $titleCacheById = array();
@@ -322,6 +326,8 @@ class Thread {
 			'thread_sortkey' => $this->sortkey,
 			'thread_replies' => $this->replyCount,
 			'thread_signature' => $this->signature,
+			//ALLQOOW
+			'thread_score1' => $this->kustom1(),
 		);
 	}
 
@@ -530,6 +536,9 @@ class Thread {
 			'thread_sortkey' => 'sortkey',
 			'thread_replies' => 'replyCount',
 			'thread_signature' => 'signature',
+			// ALLQOOW
+			'thread_score1' => 'score1',
+			'thread_logalq' => 'logalq',
 		);
 
 		foreach ( $dataLoads as $db_field => $member_field ) {
@@ -1713,5 +1722,16 @@ class Thread {
 					'tr_user' => $user->getId(),
 					'tr_type' => $type ),
 				__METHOD__ );
+	}
+
+	// ALLQOOW: Define a method for importing value from extending class
+	public function kustom1() {
+		global $wgRequest;
+		//var_dump($wgRequest->getVal('procon'));
+		if ( $this->score1 ) {
+			return $this->score1;
+		} else {
+			return 4;
+		}
 	}
 }

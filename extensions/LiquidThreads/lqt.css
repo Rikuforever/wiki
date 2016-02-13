@@ -306,7 +306,18 @@ body.skin-monobook li#ca-nstab-thread {
 	padding: 0.5em 1em;
 	padding-bottom: 1em;
 	padding-right: 1em;
-	border: 0.2em solid silver;
+	border: 0.2em solid green;
+	background: #e8e8e8;
+	border-top: none;
+	position: relative;
+}
+
+/*ALLQOOW: 되나?*/
+.lqt-post-wrapper-1 {
+	padding: 0.5em 1em;
+	padding-bottom: 1em;
+	padding-right: 1em;
+	border: 0.2em solid red;
 	background: #e8e8e8;
 	border-top: none;
 	position: relative;

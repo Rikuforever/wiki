@@ -1,0 +1,62 @@
+@import '../echo.variables';
+
+/* We have to include the #pt-notifications selector due to monobook */
+.mw-echo-notifications-badge {
+	#pt-notifications-alert &,
+	#pt-notifications-message & {
+		border-radius: 0.2em;
+		background-color: #d2d2d2;
+		font-size: 1.125em;
+		font-weight: bold;
+		color: white;
+		cursor: pointer;
+		text-decoration: none;
+		margin-top: -0.2em;
+		display: inline-block;
+
+		padding: @badge-padding (@badge-padding + 0.25em) @badge-padding (@badge-padding + 0.25em + 1.1em);
+		height: 1.05em;
+
+		body.ltr & {
+			background-position: @badge-padding 0.1em;
+		}
+		body.rtl & {
+			// CSS sucks, we can't specify background-position-x from the right
+			// You can in Firefox with background-position-x: right 0.12em;
+			// but that's not supported in any other browsers
+			background-position: ~"calc(100% - @{badge-padding}) 0.1em";
+		}
+		background-size: @badge-icon-size;
+		background-repeat: no-repeat;
+
+		&:hover,
+		&:active,
+		&:focus {
+			background-color: #c2c2c2;
+			outline: none;
+			-moz-outline-style: none;
+		}
+
+		&-dimmed {
+			opacity: 0.4;
+		}
+	}
+
+	#pt-notifications-message & {
+		margin-left: @badge-distance-adjustment;
+
+		+ .oo-ui-popupWidget {
+			left: (1em + @badge-distance-adjustment);
+		}
+	}
+
+
+	&.mw-echo-unseen-notifications {
+		#pt-notifications-alert & {
+			background-color: @badge-background-unseen-alert;
+		}
+		#pt-notifications-message & {
+			background-color: @badge-background-unseen-message;
+		}
+	}
+}

@@ -325,3 +325,14 @@ $wgLiquidThreadsShowBumpCheckbox = false;
 
 /** Enable/Disable 'New messages' link and special page (Special:NewMessages) */
 $wgLiquidThreadsEnableNewMessages = true;
+
+// ALLQOOW: adding hooks
+
+$wgHooks['EditPageBeforeEditButtons'][] = 'LqtHooks::onEditPageBeforeEditButtons';
+$wgHooks['AlternateEdit'][] = 'LqtHooks::onAlternateEdit';
+//$wgHooks['EditPage::importFormData'][] = 'LqtHooks::importFormData';
+//$wgHooks['PageContentSave'][] = 'LqtHooks::onPageContentSave';
+//$wgHooks['PageContentSaveComplete'][] = 'LqtHooks::onPageContentSaveComplete';
+
+//Desperately hope that it works
+//$wgHooks['LiquidThreadsSaveReply'][] = 'LqtHooks::onLiquidThreadsSaveReply';

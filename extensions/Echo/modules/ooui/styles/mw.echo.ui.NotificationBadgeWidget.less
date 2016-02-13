@@ -1,0 +1,67 @@
+@import '../../echo.variables';
+
+// These rules are outside of the LESS nesting because they don't work inside
+// the nested rule. These should be very strong so as to override the base styles
+#pt-notifications-alert .mw-echo-notifications-badge.oo-ui-flaggedElement-unseen {
+		background-color: @badge-background-unseen-alert;
+}
+#pt-notifications-message .mw-echo-notifications-badge.oo-ui-flaggedElement-unseen {
+		background-color: @badge-background-unseen-message;
+}
+
+.mw-echo-ui-notificationBadgeButtonPopupWidget {
+	position: relative;
+
+	.oo-ui-popupWidget-footer {
+		border-top: 1px solid #DDDDDD;
+		width: 100%;
+
+		.oo-ui-buttonElement {
+			display: table-cell;
+			white-space: normal;
+			font-weight: bold;
+			width: @notification-popup-width / 2;
+			box-sizing: border-box;
+
+			&:last-child {
+				border-left: 1px solid #DDDDDD;
+			}
+
+			> .oo-ui-buttonElement-button {
+				display: block;
+				line-height: 4em;
+				margin: 0;
+				border: 0;
+			}
+		}
+	}
+
+	.oo-ui-popupWidget {
+		// #p-personal li has a font-size of 0.75em, but we want the
+		// font size here to be exactly 0.875em, so we must override
+		// the parent em sizing by dividing.
+		font-size: 0.875em / 0.75em;
+
+		// Align the popup with the center of the button
+		left: 1em;
+	}
+
+	.oo-ui-popupWidget-head {
+		height: 3.5em;
+		> .oo-ui-iconWidget {
+			float: left;
+			margin: 0.7em 0 1em 1em;
+		}
+
+		> .oo-ui-labelElement-label {
+			font-size: 1.2em;
+			padding: 0.3em;
+			margin-left: 0;
+			font-weight: bold;
+		}
+
+		.mw-echo-ui-notificationsWidget-markAllReadButton {
+			margin: 1.25em 1em;
+		}
+	}
+}
