@@ -1,0 +1,10 @@
+{
+	"@metadata": {
+		"authors": [
+			"Metalhead64",
+			"Kghbln"
+		]
+	},
+	"semanticrating-desc": "Ermöglicht es Benutzern, Objekte mit­hil­fe von Sternen zu bewerten",
+	"semanticrating-max": "Die maximale Anzahl an Sternen in einer Bewertung"
+}

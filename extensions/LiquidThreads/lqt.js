@@ -326,14 +326,15 @@ window.liquidThreads = {
 		// Add handler for reply link
 		var replyLink = toolbar.find( '.lqt-command-reply > a' );
 		replyLink.data( 'thread-id', threadID );
-		replyLink.data( 'fuck', 'RIKU');
+		//HJ : data에 fuck값을 넣는다. data(key, value)
+		replyLink.data( 'fuck', '1');
 		replyLink.click( liquidThreads.handleReplyLink );
 
 		//HJ : 추가 링크에 대한 연결
 		var replyLink = toolbar.find( '.lqt-command-reply2 > a' );
 		replyLink.data( 'thread-id', threadID );
 		//HJ : data에 fuck값을 넣는다. data(key, value)
-		replyLink.data( 'fuck', 'SORA');
+		replyLink.data( 'fuck', '2');
 		replyLink.click( liquidThreads.handleReplyLink );
 
 

@@ -501,8 +501,7 @@ class ApiThreadAction extends ApiEditPage {
 			$this->dieUsage( 'You must include text in your post', 'no-text' );
 		}
 
-		//HJ : $text = $params['text'];
-		$text = $params['fuck'];
+		$text = $params['text'];
 
 		$bump = isset( $params['bump'] ) ? $params['bump'] : null;
 
@@ -572,6 +571,7 @@ class ApiThreadAction extends ApiEditPage {
 		$article->getTitle()->resetArticleID( $articleId );
 		$title->resetArticleID( $articleId );
 
+		//HJ : LqtView::replyMetadataUpdates 로 신규 DB또는 Thread 생성
 		$thread = LqtView::replyMetadataUpdates(
 			array(
 				'root' => $article,
@@ -581,6 +581,29 @@ class ApiThreadAction extends ApiEditPage {
 				'text' => $text,
 				'bump' => $bump,
 			) );
+
+		//HJ : 부모 fuck값 받기
+		$dbw = wfGetDB( DB_MASTER );
+		$parentID = $dbw->selectFieldValues('thread', 'thread_parent', array('thread_id' => $thread->id()), __METHOD__);
+		$parentFuck = $dbw->selectFieldValues('thread', 'thread_score1', array('thread_id' => $parentID[0]), __METHOD__);
+		$parentFuck = $parentFuck[0];
+
+		//HJ : 발제문일 경우 1(찬성) 부여
+		if($parentFuck == 0){
+			$parentFuck = 1;
+		}
+
+		//HJ : 찬성 댓글인 경우 부모 fuck 상속
+		if($params['fuck'] == 1){
+			$params['fuck'] = $parentFuck;
+		}
+		//HJ : 반대 댓글인 경우 다르게 처리
+		else if($params['fuck'] == 2 && $parentFuck == 2) {
+				$params['fuck'] = 1;
+		}
+		//HJ : 방금 생성한 DB Row에 fuck값 삽입
+		$dbw->update('thread', array('thread_score1' => $params['fuck']), array('thread_id' => $thread->id()), __METHOD__);
+
 
 		$result = array(
 			'action' => 'reply',

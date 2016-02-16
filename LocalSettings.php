@@ -117,7 +117,7 @@ $wgDiff3 = "";
 
 ## Default skin: you can change the default skin. Use the internal symbolic
 ## names, ie 'vector', 'monobook':
-$wgDefaultSkin = "vector";
+$wgDefaultSkin = "bootstrapskin";
 
 # Enabled skins.
 # The following skins were automatically enabled:
@@ -133,6 +133,10 @@ wfLoadSkin( 'Vector' );
 require_once "$IP/extensions/LiquidThreads/LiquidThreads.php";
 wfLoadExtension( 'WikiEditor' );
 require_once "$IP/extensions/examples/Example/Example.php";
+require_once "$IP/skins/bootstrap/bootstrapskin.php";
+require_once "$IP/extensions/VoteNY/VoteNY.php";
+include_once "$IP/extensions/SemanticForms/SemanticForms.php";
+require_once "$IP/extensions/SemanticRating/SemanticRating.php";
 
 # End of automatically generated settings.
 # Add more configuration options below.

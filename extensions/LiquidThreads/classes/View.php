@@ -1292,7 +1292,8 @@ class LqtView {
 
 			if ( $thread->canUserReply( $this->user, 'quick' ) === true ) {
 				$commands['reply'] = array(
-					'label' => wfMessage( 'lqt_reply' )->parse(),
+					//'label' => wfMessage( 'lqt_reply' )->parse(),
+					'label' => '찬성',
 					'href' => $this->talkpageUrl( $this->title, 'reply', $thread,
 						true /* include fragment */, $this->request ),
 					'enabled' => true,
@@ -1308,7 +1309,7 @@ class LqtView {
 		//HJ : Insert Button
 		if ( $isLqtPage ) {
 			$commands['reply2'] = array(
-					'label' => '답변2',
+					'label' => '반대',
 					'href' => $this->talkpageUrl( $this->title, 'reply', $thread,
 						true /* include fragment */, $this->request ),
 					'enabled' => true,
