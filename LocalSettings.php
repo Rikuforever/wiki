@@ -133,16 +133,16 @@ wfLoadSkin( 'Vector' );
 require_once "$IP/extensions/LiquidThreads/LiquidThreads.php";
 wfLoadExtension( 'WikiEditor' );
 require_once "$IP/extensions/examples/Example/Example.php";
-<<<<<<< HEAD
+
 require_once "$IP/skins/bootstrap/bootstrapskin.php";
 require_once "$IP/extensions/VoteNY/VoteNY.php";
 include_once "$IP/extensions/SemanticForms/SemanticForms.php";
 require_once "$IP/extensions/SemanticRating/SemanticRating.php";
-=======
+
 require_once "$IP/extensions/Manual/TagExtensions/TagExtensions.php";
 require_once "$IP/extensions/Manual/QuickTemplate/MySpecialPage.php";
 require_once "$IP/extensions/Manual/ParserFunctions/1/ExampleExtension.php";
->>>>>>> master
+
 
 # End of automatically generated settings.
 # Add more configuration options below.

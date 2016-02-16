@@ -1582,6 +1582,19 @@ class LqtView {
 			$html .= Xml::closeElement( 'div' );
 		} elseif ( $showAnything ) {
 			$html .= Xml::openElement( 'div', array( 'class' => $divClass ) );
+		
+		$html .= '<div class="btn-group" role="group" aria-label="..." style="float: right;" id="'.$thread->id().'">';
+		//HJ : LIKE 버튼 추가 (class: sim-like)
+		//조건에 따른 버튼 변화 필요
+		$html .= '<button href="" class="btn btn-primary sim-like" title="LIKEButton">';
+		$html .= '<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> LIKE';
+		$html .= '</button>';
+		//HJ : DISLIKE 버튼 추가 (class: sim-dislike)
+		//조건에 따른 버튼 변화 필요
+		$html .= '<button href="" class="btn btn-danger sim-dislike" title="DISLIKEButton">';
+		$html .= '<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> DISLIKE';
+		$html .= '</button>';	
+		$html .= '</div>';
 
 			$show = Hooks::run( 'LiquidThreadsShowPostContent',
 						array( $thread, &$post ) );

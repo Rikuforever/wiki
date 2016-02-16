@@ -834,6 +834,11 @@ window.liquidThreads = {
 		e.preventDefault();
 	},
 
+	// HJ : LIKE, DISLIKE 버튼 함수
+	'simRate' : function( e ) {
+		var button = $( this );
+	},
+
 	'showThreadLinkWindow' : function ( e ) {
 		e.preventDefault();
 		var thread = $( this ).closest( '.lqt_thread' );
@@ -1644,6 +1649,10 @@ $( document ).ready( function () {
 
 	// Hide menus when a click happens outside them
 	$( document ).click( liquidThreads.handleDocumentClick );
+
+	// HJ : LIKE과 DISLIKE 버튼 함수 연결
+	$( document ).on( 'click', '.sim-like', liquidThreads.simRate );
+	$( document ).on( 'click', '.sim-dislike', liquidThreads.simRate );
 
 	// Set up periodic update checking
 	setInterval( liquidThreads.checkForUpdates, 60000 );
