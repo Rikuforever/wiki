@@ -1,4 +1,4 @@
-/**
+﻿/**
  * LiquidThreads core javascript library.
  *
  * Exposes global object `liquidThreads`.
@@ -837,6 +837,15 @@ window.liquidThreads = {
 	// HJ : LIKE, DISLIKE 버튼 함수
 	'simRate' : function( e ) {
 		var button = $( this );
+		var doLike = button.attr( 'id' );
+		// HJ : 부모 div 태그에서 페이지 값 받기
+		var threadId = button.closest( 'sim-btn-group' ).attr( 'id' );
+
+		$.post(
+			mw.util.wikiScript(), {
+				/////////작업선//////////////
+			}
+		)
 	},
 
 	'showThreadLinkWindow' : function ( e ) {
@@ -1651,8 +1660,7 @@ $( document ).ready( function () {
 	$( document ).click( liquidThreads.handleDocumentClick );
 
 	// HJ : LIKE과 DISLIKE 버튼 함수 연결
-	$( document ).on( 'click', '.sim-like', liquidThreads.simRate );
-	$( document ).on( 'click', '.sim-dislike', liquidThreads.simRate );
+	$( document ).on( 'click', '.sim-vote', liquidThreads.simRate );
 
 	// Set up periodic update checking
 	setInterval( liquidThreads.checkForUpdates, 60000 );

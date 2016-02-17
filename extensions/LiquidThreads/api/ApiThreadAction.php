@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 class ApiThreadAction extends ApiEditPage {
 	public function execute() {

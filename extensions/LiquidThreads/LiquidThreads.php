@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 if ( !defined( 'MEDIAWIKI' ) )
 	die();
 
@@ -325,3 +325,6 @@ $wgLiquidThreadsShowBumpCheckbox = false;
 
 /** Enable/Disable 'New messages' link and special page (Special:NewMessages) */
 $wgLiquidThreadsEnableNewMessages = true;
+
+// HJ : AJAX 함수 연결
+require_once 'simRate_AjaxFunctions.php';
