@@ -1584,15 +1584,17 @@ class LqtView {
 			$html .= Xml::openElement( 'div', array( 'class' => $divClass ) );
 		
 		$html .= '<div class="btn-group sim-btn-group" role="group" aria-label="..." style="float: right;" id="'.$thread->id().'">';
-		//HJ : LIKE 버튼 추가 (class: sim-vote id: like)
+		//HJ : LIKE 버튼 추가 (class: sim-vote id: 3)
 		//조건에 따른 버튼 변화 필요
-		$html .= '<button href="" class="btn btn-primary sim-vote" title="LIKEButton" id="like">';
-		$html .= '<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span> LIKE';
+		$html .= '<button href="" class="btn btn-primary sim-vote" title="LIKEButton" id="3">';
+		$html .= '<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>';
+		$html .= 'LIKE';
 		$html .= '</button>';
-		//HJ : DISLIKE 버튼 추가 (class: sim-vote id: dislike)
+		//HJ : DISLIKE 버튼 추가 (class: sim-vote id: 4)
 		//조건에 따른 버튼 변화 필요
-		$html .= '<button href="" class="btn btn-danger sim-vote" title="DISLIKEButton" id="dislike">';
-		$html .= '<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span> DISLIKE';
+		$html .= '<button href="" class="btn btn-danger sim-vote" title="DISLIKEButton" id="4">';
+		$html .= '<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>';
+		$html .= 'DISLIKE';
 		$html .= '</button>';	
 		$html .= '</div>';
 

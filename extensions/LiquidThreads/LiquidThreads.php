@@ -326,5 +326,11 @@ $wgLiquidThreadsShowBumpCheckbox = false;
 /** Enable/Disable 'New messages' link and special page (Special:NewMessages) */
 $wgLiquidThreadsEnableNewMessages = true;
 
+// HJ : SimRate.php 연결
+$wgAutoloadClasses['SimRate'] = __DIR__ . '/classes/SimRate.php';
 // HJ : AJAX 함수 연결
 require_once 'simRate_AjaxFunctions.php';
+// HJ : SimRate 유저 권한 제한
+$wgAvailableRights[] = 'simrate';
+$wgGroupPermissions['*']['simrate'] = false; // Anonymous users cannot vote
+$wgGroupPermissions['user']['simrate'] = true; // Registered users can vote

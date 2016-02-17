@@ -839,13 +839,17 @@ window.liquidThreads = {
 		var button = $( this );
 		var doLike = button.attr( 'id' );
 		// HJ : 부모 div 태그에서 페이지 값 받기
-		var threadId = button.closest( 'sim-btn-group' ).attr( 'id' );
-
+		var threadId = button.closest( '.sim-btn-group' ).attr( 'id' );
+		
 		$.post(
 			mw.util.wikiScript(), {
-				/////////작업선//////////////
+				action: 'ajax',
+				rs: 'wfSimRate',
+				rsargs: [ doLike, threadId ]
 			}
-		)
+		).done( function( data ) {
+			alert( data );
+		} );
 	},
 
 	'showThreadLinkWindow' : function ( e ) {

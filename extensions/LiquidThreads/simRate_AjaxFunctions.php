@@ -2,20 +2,24 @@
 /**
  * AJAX functions used by Vote extension.
  */
-$wgAjaxExportList[] = 'wfSimVote';
+$wgAjaxExportList[] = 'wfSimRate';
 
-function wfSimVote( $voteValue, $pageId ) {
+function wfSimRate( $voteValue, $pageId ) {
 	global $wgUser;
 
-	if ( !$wgUser->isAllowed( 'voteny' ) ) {
+	if ( !$wgUser->isAllowed( 'simrate' ) ) {
 		return '';
 	}
 
+	// HJ : TEST
+	return 'success';
+
 	if ( is_numeric( $pageId ) && ( is_numeric( $voteValue ) ) ) {
-		$vote = new Vote( $pageId );
+		$vote = new SimRate( $pageId );
 		$vote->insert( $voteValue );
 
-		return $vote->count( 1 );
+		//return $vote->count( 1 );
+		return 'success';
 	} else {
 		return 'error';
 	}
