@@ -1,6 +1,10 @@
 <?php
 
 class SimRate {
+	public $PageID = 0;
+	public $Userid = 0;
+	public $Username = null;
+
 
 	public function __construct( $pageID ) {
 		global $wgUser;
@@ -39,6 +43,47 @@ class SimRate {
 				$stats = new UserStatsTrack( $this->Userid, $this->Username );
 				$stats->incStatField( 'vote' );
 			}
+		}
+	}
+
+	function delete() {
+		$dbw = wfGetDB( DB_MASTER );
+		$dbw->begin();
+		$dbw->delete(
+			'sim_rate',
+			array(
+				'vote_page_id' => $this->PageID,
+				'username' => $this->Username
+			),
+			__METHOD__
+		);
+		$dbw->commit();
+
+		$this->clearCache();
+
+		// Update social statistics if SocialProfile extension is enabled
+		if ( class_exists( 'UserStatsTrack' ) ) {
+			$stats = new UserStatsTrack( $this->Userid, $this->Username );
+			$stats->decStatField( 'vote' );
+		}
+	}
+
+
+	function UserAlreadyVoted() {
+		$dbr = wfGetDB( DB_SLAVE );
+		$s = $dbr->selectRow(
+			'Vote',
+			array( 'vote_value' ),
+			array(
+				'vote_page_id' => $this->PageID,
+				'username' => $this->Username
+			),
+			__METHOD__
+		);
+		if ( $s === false ) {
+			return false;
+		} else {
+			return $s->vote_value;
 		}
 	}
 

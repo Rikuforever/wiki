@@ -11,9 +11,6 @@ function wfSimRate( $voteValue, $pageId ) {
 		return '';
 	}
 
-	// HJ : TEST
-	return 'success';
-
 	if ( is_numeric( $pageId ) && ( is_numeric( $voteValue ) ) ) {
 		$vote = new SimRate( $pageId );
 		$vote->insert( $voteValue );

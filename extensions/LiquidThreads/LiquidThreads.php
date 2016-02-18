@@ -327,6 +327,8 @@ $wgLiquidThreadsShowBumpCheckbox = false;
 $wgLiquidThreadsEnableNewMessages = true;
 
 // HJ : SimRate.php 연결
+define( 'SIM_LIKE', -1 );
+define( 'SIM_DISLIKE', 1 );
 $wgAutoloadClasses['SimRate'] = __DIR__ . '/classes/SimRate.php';
 // HJ : AJAX 함수 연결
 require_once 'simRate_AjaxFunctions.php';
