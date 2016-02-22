@@ -33,3 +33,22 @@ $wgResourceModules['ext.profile.button'] = array(
 	'localBasePath' => __DIR__,
 	'remoteExtPath' => 'Profile',
 );
+
+
+global $wgAjaxExportList;
+
+$wgAjaxExportList[] = 'wfConnectDB';
+
+function wfConnectDB() {
+	$dbr = wfgetDB( DB_SLAVE );				//UTF-8 테스트
+	$var = $dbr->selectFieldValues(
+       'user',                  
+       'user_name',             
+       '',                      
+       __METHOD__,              
+       array(),                 
+       array()                  
+    );
+
+	return strval($var[0]);
+}

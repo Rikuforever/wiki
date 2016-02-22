@@ -41,8 +41,9 @@ class ProfileHooks{
 	       array()                  
 	    );
 		
+    	$ret = '<div id="test"></div>';
 
-		$ret = '<table class="wtable">';
+		$ret .= '<table class="wtable">';
 		$ret .= '<tr>';
 		$ret .= '<td>Feedback'.$var[0].'</td>';
 		$ret .= '<td><input id="inp001" type="text" /></td>';
