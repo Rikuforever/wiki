@@ -148,3 +148,30 @@ require_once "$IP/extensions/Manual/ParserFunctions/1/ExampleExtension.php";
 # Add more configuration options below.
 
 $wgShowExceptionDetails = true;
+
+#
+//require_once '$IP/extensions/LiquidThreads/SimRate_AjaxFunctions.php'; // AJAX 함수 연결
+global $wgAjaxExportList;
+
+$wgAjaxExportList[] = 'wfSimRate';
+
+function wfSimRate( $rateValue, $threadId ) {
+	global $wgUser;
+
+	if ( !$wgUser->isAllowed( 'simrate' ) ) {
+		return strval(-2); // 에러 메시지 : 로그인하삼!!
+	}
+
+	if ( is_numeric( $threadId ) && ( is_numeric( $rateValue ) ) ) {
+
+		$rate = new SimRate( $threadId );
+		if($rate->UserAlreadyRated() != false) {
+			return strval(-1); // 에러 메시지 : 이미 평가 했어!!
+		}
+		$newCount = $rate->insert( $rateValue );
+		// HJ : String으로 반환 안하면 오류
+		return strval($newCount);
+	} else {
+		return 'error';
+	}
+}

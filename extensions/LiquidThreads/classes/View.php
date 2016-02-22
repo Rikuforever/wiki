@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
 * @file
 * @ingroup LiquidThreads
@@ -251,8 +251,6 @@ class LqtView {
 	 * @param $perpetuateOffset bool
 	 * @return array
 	 */
-	
-	//HJ : method 값을 필요 링크 값을 반환 할 듯
 	static function talkpageLinkData( $title, $method = null, $operand = null,
 		$includeFragment = true, $perpetuateOffset = true )
 	{
@@ -280,7 +278,6 @@ class LqtView {
 			$request = $wgRequest;
 		}
 
-		
 		if ( $perpetuateOffset ) {
 			$offset = $request->getVal( 'offset' );
 
@@ -293,9 +290,6 @@ class LqtView {
 		if ( $operand && $includeFragment ) {
 			$title->mFragment = $operand->getAnchorName();
 		}
-
-		//HJ : Custom 인자 결국 안쓰는듯 
-		//$query['lqt_fuck'] = 'RIKU';
 
 		return array( $title, $query );
 	}
@@ -435,9 +429,7 @@ class LqtView {
 	 * @return String
 	 * @throws Exception
 	 */
-	//HJ : 이 함수는 api에서 에딧폼 받아올때 쓰는 것! 거의 전달용이라고 생각하면 될듯
-	//static function getInlineEditForm( $talkpage, $method, $operand )
-	static function getInlineEditForm( $talkpage, $method, $operand, $fuck ) {
+	static function getInlineEditForm( $talkpage, $method, $operand ) {
 		$req = new RequestContext;
 		$output = $req->getOutput();
 		$request = new FauxRequest( array() );
@@ -463,8 +455,6 @@ class LqtView {
 		$output->setTitle( $title );
 		$request->setVal( 'lqt_method', $method );
 		$request->setVal( 'lqt_operand', $operand );
-		//HJ : fuck 설정을 여기서?
-		$request->setVal( 'lqt_fuck', $fuck );
 
 		global $wgUser;
 		$view = new LqtView( $output, $talkpage, $title, $wgUser, $request );
@@ -617,6 +607,7 @@ class LqtView {
 					array( 'class' => 'lqt-reply-form lqt-edit-form' ) );
 		$this->output->addHTML( $html );
 
+
 		try {
 			$t = $this->newReplyTitle( null, $thread );
 		} catch ( Exception $excep ) {
@@ -655,8 +646,6 @@ class LqtView {
 		$e->editFormTextBeforeContent .=
 			$this->perpetuate( 'lqt_method', 'hidden' ) .
 			$this->perpetuate( 'lqt_operand', 'hidden' ) .
-			//HJ
-			Html::hidden( 'lqt_fuck',  $this->request->getVal( 'lqt_fuck' )) .
 			Html::hidden( 'lqt_nonce', MWCryptRand::generateHex( 32 ) ) .
 			Html::hidden( 'offset', $offset ) .
 			Html::hidden( 'wpMinorEdit', '' );
@@ -1292,8 +1281,7 @@ class LqtView {
 
 			if ( $thread->canUserReply( $this->user, 'quick' ) === true ) {
 				$commands['reply'] = array(
-					//'label' => wfMessage( 'lqt_reply' )->parse(),
-					'label' => '찬성',
+					'label' => wfMessage( 'lqt_reply' )->parse(),
 					'href' => $this->talkpageUrl( $this->title, 'reply', $thread,
 						true /* include fragment */, $this->request ),
 					'enabled' => true,
@@ -1302,24 +1290,7 @@ class LqtView {
 					'icon' => 'reply.png',
 				);
 			}
-			//var_dump($commands['reply']['href']);
-
 		}
-
-		//HJ : Insert Button
-		if ( $isLqtPage ) {
-			$commands['reply2'] = array(
-					'label' => '반대',
-					'href' => $this->talkpageUrl( $this->title, 'reply', $thread,
-						true /* include fragment */, $this->request ),
-					'enabled' => true,
-					'showlabel' => 1,
-					'tooltip' => wfMessage( 'lqt_reply' )->parse(),
-					'icon' => 'reply.png',
-			);
-		}
-		//var_dump($commands['reply2']['href']);
-
 
 		// Parent post link
 		if ( !$thread->isTopmostThread() ) {
@@ -1333,8 +1304,6 @@ class LqtView {
 				'showlabel' => 1,
 			);
 		}
-
-		
 
 		Hooks::run( 'LiquidThreadsThreadMajorCommands',
 				array( $thread, &$commands ) );
@@ -1582,21 +1551,23 @@ class LqtView {
 			$html .= Xml::closeElement( 'div' );
 		} elseif ( $showAnything ) {
 			$html .= Xml::openElement( 'div', array( 'class' => $divClass ) );
-		
-		$html .= '<div class="btn-group sim-btn-group" role="group" aria-label="..." style="float: right;" id="'.$thread->id().'">';
-		//HJ : LIKE 버튼 추가 (class: sim-vote id: 3)
-		//조건에 따른 버튼 변화 필요
-		$html .= '<button href="" class="btn btn-primary sim-vote" title="LIKEButton" id="'.SIM_LIKE.'">';
-		$html .= '<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true"></span>';
-		$html .= 'LIKE';
-		$html .= '</button>';
-		//HJ : DISLIKE 버튼 추가 (class: sim-vote id: 4)
-		//조건에 따른 버튼 변화 필요
-		$html .= '<button href="" class="btn btn-danger sim-vote" title="DISLIKEButton" id="'.SIM_DISLIKE.'">';
-		$html .= '<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true"></span>';
-		$html .= 'DISLIKE';
-		$html .= '</button>';	
-		$html .= '</div>';
+
+			// HJ : 클래스 생성
+			$simRate = new SimRate($thread->id());
+
+			// HJ : 버튼 그룹 시키며 threadID 값을 id 인자로 전달 (class: sim-btn-group)
+			$html .= '<div class="btn-group sim-btn-group" role="group" aria-label="..." style="float: right;" id="'.$thread->id().'">';
+			// HJ : 좋아요 버튼 추가 (class: sim-vote, id: 1)
+				$html .= '<button href="" class="btn btn-primary sim-vote" title="좋아요" id="'.SIM_LIKE.'">';
+					$html .= '<span class="glyphicon glyphicon-thumbs-up" aria-hidden="true" style="margin-right: 5px;"></span>';
+					$html .= '<span id="count">'.$simRate->getCount(SIM_LIKE).'</span>';
+				$html .= '</button>';
+			// HJ : 싫어요 버튼 추가 (class: sim-vote, id: -1)
+				$html .= '<button href="" class="btn btn-danger sim-vote" title="싫어요" id="'.SIM_DISLIKE.'">';
+					$html .= '<span class="glyphicon glyphicon-thumbs-down" aria-hidden="true" style="margin-right: 5px;"></span>';
+					$html .= '<spain id="count">'.$simRate->getCount(SIM_DISLIKE).'</span>';
+				$html .= '</button>';	
+			$html .= '</div>';
 
 			$show = Hooks::run( 'LiquidThreadsShowPostContent',
 						array( $thread, &$post ) );

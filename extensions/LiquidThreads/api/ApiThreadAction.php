@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 class ApiThreadAction extends ApiEditPage {
 	public function execute() {
@@ -571,7 +571,6 @@ class ApiThreadAction extends ApiEditPage {
 		$article->getTitle()->resetArticleID( $articleId );
 		$title->resetArticleID( $articleId );
 
-		//HJ : LqtView::replyMetadataUpdates 로 신규 DB또는 Thread 생성
 		$thread = LqtView::replyMetadataUpdates(
 			array(
 				'root' => $article,
@@ -581,29 +580,6 @@ class ApiThreadAction extends ApiEditPage {
 				'text' => $text,
 				'bump' => $bump,
 			) );
-
-		//HJ : 부모 fuck값 받기
-		$dbw = wfGetDB( DB_MASTER );
-		$parentID = $dbw->selectFieldValues('thread', 'thread_parent', array('thread_id' => $thread->id()), __METHOD__);
-		$parentFuck = $dbw->selectFieldValues('thread', 'thread_score1', array('thread_id' => $parentID[0]), __METHOD__);
-		$parentFuck = $parentFuck[0];
-
-		//HJ : 발제문일 경우 1(찬성) 부여
-		if($parentFuck == 0){
-			$parentFuck = 1;
-		}
-
-		//HJ : 찬성 댓글인 경우 부모 fuck 상속
-		if($params['fuck'] == 1){
-			$params['fuck'] = $parentFuck;
-		}
-		//HJ : 반대 댓글인 경우 다르게 처리
-		else if($params['fuck'] == 2 && $parentFuck == 2) {
-				$params['fuck'] = 1;
-		}
-		//HJ : 방금 생성한 DB Row에 fuck값 삽입
-		$dbw->update('thread', array('thread_score1' => $params['fuck']), array('thread_id' => $thread->id()), __METHOD__);
-
 
 		$result = array(
 			'action' => 'reply',
@@ -845,11 +821,6 @@ class ApiThreadAction extends ApiEditPage {
 			$talkpage = $params['talkpage'];
 		}
 
-		//HJ : fuck 받는다.
-		if ( isset( $params['fuck'] ) ) {
-			$fuck = $params['fuck'];
-		}
-
 		if ( $talkpage ) {
 			$talkpage = new Article( Title::newFromText( $talkpage ), 0 );
 		} else {
@@ -861,9 +832,7 @@ class ApiThreadAction extends ApiEditPage {
 			$operand = $operand->id();
 		}
 
-		//HJ : 중요!! 여기서 javascript에서 받은 fuck 인자를 물려받고, 이를 view로 넘겨줘서, html hidden으로 fuck 값을 부여해서 js로 읽을수 있게 하는겨
-		//$output = LqtView::getInlineEditForm( $talkpage, $method, $operand);
-		$output = LqtView::getInlineEditForm( $talkpage, $method, $operand, $fuck );
+		$output = LqtView::getInlineEditForm( $talkpage, $method, $operand );
 
 		$result = array( 'inlineeditform' => array( 'html' => $output ) );
 
@@ -928,8 +897,6 @@ class ApiThreadAction extends ApiEditPage {
 			'value' => 'Specifies the value associated with the reaction to add',
 			'method' => 'For getting inline edit forms, the method to get a form for',
 			'operand' => '',
-			//HJ
-			'fuck' => '',
 		);
 	}
 
@@ -979,8 +946,6 @@ class ApiThreadAction extends ApiEditPage {
 			'value' => null,
 			'method' => null,
 			'operand' => null,
-			//HJ : fuck 받음
-			'fuck' => null,
 		);
 	}
 

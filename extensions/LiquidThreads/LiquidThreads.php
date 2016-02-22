@@ -326,13 +326,10 @@ $wgLiquidThreadsShowBumpCheckbox = false;
 /** Enable/Disable 'New messages' link and special page (Special:NewMessages) */
 $wgLiquidThreadsEnableNewMessages = true;
 
-// HJ : SimRate.php 연결
-define( 'SIM_LIKE', -1 );
-define( 'SIM_DISLIKE', 1 );
+// HJ : SimRate 연결
+define( 'SIM_LIKE', 1 );
+define( 'SIM_DISLIKE', -1 );
 $wgAutoloadClasses['SimRate'] = __DIR__ . '/classes/SimRate.php';
-// HJ : AJAX 함수 연결
-require_once 'simRate_AjaxFunctions.php';
-// HJ : SimRate 유저 권한 제한
 $wgAvailableRights[] = 'simrate';
-$wgGroupPermissions['*']['simrate'] = false; // Anonymous users cannot vote
-$wgGroupPermissions['user']['simrate'] = true; // Registered users can vote
+$wgGroupPermissions['*']['simrate'] = false; // 로그인 안한 유저 차단
+$wgGroupPermissions['user']['simrate'] = true; // 로그인 한 유저 허용

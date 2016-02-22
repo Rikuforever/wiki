@@ -354,15 +354,6 @@ body.skin-monobook li#ca-nstab-thread {
 	background-position: left center !important;
 }
 
-/*HJ : 두번째 버튼을 위한*/
-.lqt-command-reply2 a {
-	padding-left: 26px;
-	/* @embed */
-	background-image: url(icons/reply.png) !important;
-	background-repeat: no-repeat;
-	background-position: left center !important;
-}
-
 .lqt-thread-toolbar-commands  li.lqt-command {
 	margin-left: 0.5em;
 	margin-right: 0.5em;

@@ -1,4 +1,4 @@
-﻿/**
+/**
  * LiquidThreads core javascript library.
  *
  * Exposes global object `liquidThreads`.
@@ -37,8 +37,6 @@ window.liquidThreads = {
 
 		var container = $( target ).closest( '.lqt_thread' )[0];
 		var thread_id = $( this ).data( 'thread-id' );
-		//HJ : fuck 값을 data로 읽어옴(설정은 setupMenu에서 설정 setupThread 에서 필요할지는 모르겠음)
-		var fuck = $( this ).data( 'fuck' );
 
 		// hide the form for this thread if it's currently being shown
 		if ( thread_id === liquidThreads.currentReplyThread && $( '#wpTextbox1' ).is( ':visible' ) ) {
@@ -46,7 +44,7 @@ window.liquidThreads = {
 			return;
 		}
 
-		var params = { 'method' : 'reply', 'thread' : thread_id, 'fuck' : fuck };
+		var params = { 'method' : 'reply', 'thread' : thread_id };
 
 		var repliesElement = $( container ).contents().filter( '.lqt-thread-replies' );
 		var replyDiv = repliesElement.contents().filter( '.lqt-reply-form' );
@@ -326,18 +324,7 @@ window.liquidThreads = {
 		// Add handler for reply link
 		var replyLink = toolbar.find( '.lqt-command-reply > a' );
 		replyLink.data( 'thread-id', threadID );
-		//HJ : data에 fuck값을 넣는다. data(key, value)
-		replyLink.data( 'fuck', '1');
 		replyLink.click( liquidThreads.handleReplyLink );
-
-		//HJ : 추가 링크에 대한 연결
-		var replyLink = toolbar.find( '.lqt-command-reply2 > a' );
-		replyLink.data( 'thread-id', threadID );
-		//HJ : data에 fuck값을 넣는다. data(key, value)
-		replyLink.data( 'fuck', '2');
-		replyLink.click( liquidThreads.handleReplyLink );
-
-
 
 		if ( ! menu.closest( '.lqt_thread' ).is( '.lqt-thread-uneditable' ) ) {
 			// Add "Drag to new location" to menu
@@ -654,8 +641,6 @@ window.liquidThreads = {
 		replyLinks.click( liquidThreads.handleReplyLink );
 		replyLinks.data( 'thread-id', threadId );
 
-		//HJ : 여기도 추개야하나?
-
 		// Hide edit forms
 		$( threadContainer ).find( 'div.lqt-edit-form' ).each(
 			function () {
@@ -834,24 +819,6 @@ window.liquidThreads = {
 		e.preventDefault();
 	},
 
-	// HJ : LIKE, DISLIKE 버튼 함수
-	'simRate' : function( e ) {
-		var button = $( this );
-		var doLike = button.attr( 'id' );
-		// HJ : 부모 div 태그에서 페이지 값 받기
-		var threadId = button.closest( '.sim-btn-group' ).attr( 'id' );
-		
-		$.post(
-			mw.util.wikiScript(), {
-				action: 'ajax',
-				rs: 'wfSimRate',
-				rsargs: [ doLike, threadId ]
-			}
-		).done( function( data ) {
-			alert( data );
-		} );
-	},
-
 	'showThreadLinkWindow' : function ( e ) {
 		e.preventDefault();
 		var thread = $( this ).closest( '.lqt_thread' );
@@ -934,8 +901,6 @@ window.liquidThreads = {
 		var replyThread = editform.find( 'input[name=lqt_operand]' ).val();
 		var bumpBox = editform.find( '#wpBumpThread' );
 		var bump = bumpBox.length === 0 || bumpBox.is( ':checked' );
-		//HJ : lqt_fuck 값을 여기서 받나?
-		var fuck = editform.find( 'input[name=lqt_fuck]' ).val();
 
 		var spinner = $( '<div class="mw-ajax-loader"/>' );
 		editform.prepend( spinner );
@@ -1015,10 +980,9 @@ window.liquidThreads = {
 			liquidThreads.reloadTOC();
 		};
 
-		//HJ : fuck 값 전달
 		if ( type === 'reply' ) {
 			liquidThreads.doReply( replyThread, text, summary,
-					doneCallback, bump, signature, fuck);
+					doneCallback, bump, signature, errorCallback );
 
 			e.preventDefault();
 		} else if ( type === 'talkpage_new_thread' ) {
@@ -1084,8 +1048,7 @@ window.liquidThreads = {
 		( new mw.Api() ).post( newTopicParams ).done( doneCallback ).fail( errorCallback );
 	},
 
-	//HJ : fuck 받음
-	'doReply' : function ( thread, text, summary, callback, bump, signature, fuck ) {
+	'doReply' : function ( thread, text, summary, callback, bump, signature ) {
 		var replyParams = {
 			action : 'threadaction',
 			threadaction : 'reply',
@@ -1094,8 +1057,7 @@ window.liquidThreads = {
 			token : mw.user.tokens.get( 'editToken' ),
 			render : '1',
 			reason : summary,
-			bump : bump,
-			fuck : fuck
+			bump : bump
 		};
 
 		if ( $( '#wpCaptchaWord' ) ) {
@@ -1612,8 +1574,51 @@ window.liquidThreads = {
 			spinner.remove();
 			container.find( '.lqt-signature-edit-button' ).show();
 		} );
+	},
+
+	// HJ : 좋아요, 싫어요 버튼 함수
+	'simRate' : function( e ){
+		var button = $( this );
+		var oldButton = button.clone();
+		var doLike = button.attr( 'id' );
+		var otherId = doLike * (-1);
+
+		// HJ : 다른 버튼 지정
+		var otherButton = button.closest( '.sim-btn-group' ).children( '#'+otherId );
+
+		// HJ : 부모 div 태그에서 페이지 값 받음
+		var threadId = button.closest( '.sim-btn-group' ).attr( 'id' );
+		var spinner = $( '<span class="mw-small-spinner"/>' );
+
+		// HJ : 비활성 및 spinner
+		button[0].disabled = true;
+		otherButton[0].disabled = true;
+		button.children('#count').html( spinner );	
+
+
+		$.post(
+			mw.util.wikiScript(), {
+				action: 'ajax',
+				rs: 'wfSimRate',
+				rsargs: [ doLike, threadId ]
+			}
+		).done( function( data ) {
+				button[0].disabled = false;
+				otherButton[0].disabled = false;
+				if ( data == -2 ){
+					alert('로그인 해주세요!');
+					button.replaceWith(oldButton);
+				} else if( data == -1 ){
+					alert('이미 평가했어요!');
+					button.replaceWith(oldButton);
+				} else {
+					button.children('#count').html( data );
+				}
+			} 
+		);
+
 	}
-};
+}
 
 $( document ).ready( function () {
 	// One-time setup for the full page
@@ -1663,7 +1668,7 @@ $( document ).ready( function () {
 	// Hide menus when a click happens outside them
 	$( document ).click( liquidThreads.handleDocumentClick );
 
-	// HJ : LIKE과 DISLIKE 버튼 함수 연결
+	// HJ : 좋아요 과 싫어요 버튼 함수 연결
 	$( document ).on( 'click', '.sim-vote', liquidThreads.simRate );
 
 	// Set up periodic update checking

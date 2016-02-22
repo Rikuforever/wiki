@@ -29,6 +29,11 @@ CREATE TABLE /*$wgDBprefix*/thread (
   -- Signature
   thread_signature TINYBLOB NULL,
 
+  -- HJ : Sim-addons
+  thread_score1 int(2) NOT NULL default 99,
+  thread_score2 int(8) NOT NULL default 0,
+  thread_score3 int(8) NOT NULL default 0,
+
   UNIQUE (thread_root)
 ) /*$wgDBTableOptions*/;
 CREATE INDEX thread_ancestor ON /*$wgDBprefix*/thread (thread_ancestor, thread_parent);

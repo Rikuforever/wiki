@@ -22,6 +22,10 @@ CREATE TABLE thread (
   thread_sortkey           TEXT        NOT NULL DEFAULT '',
   thread_replies           INTEGER     NOT NULL DEFAULT -1,
   thread_signature         varchar(255)    NULL
+  -- HJ : Sim-addons
+  thread_score1            INTEGER     NOT NULL DEFAULT 99,
+  thread_score2            INTEGER     NOT NULL DEFAULT 0,
+  thread_score3            INTEGER     NOT NULL DEFAULT 0,
 );
 
 CREATE UNIQUE INDEX thread_root_page ON thread(thread_root);
